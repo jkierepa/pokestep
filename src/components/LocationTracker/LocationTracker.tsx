@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 
 import * as ExpoLocation from 'expo-location';
@@ -6,44 +6,39 @@ import { defineTask } from 'expo-task-manager';
 
 import {
   LOCATION_TIME_INTERVAL,
-  LOCATION_BACKGROUND_TASK_NAME,
+  LOCATION_BACKGROUND_TRACKING,
 } from 'src/constants';
+import checkLocationPermissions from './checkLocationPermissions';
 
 const LocationTracker = () => {
-  // const [location, setLocation] = useState<ExpoLocation.LocationObject>();
+  const [text, setText] = useState<string>('TEST TEXT FOR LOCATION TRACKER');
 
   useEffect(() => {
     (async () => {
-      const { status } = await ExpoLocation.requestForegroundPermissionsAsync();
-      if (status === 'granted') {
+      const areGranted = await checkLocationPermissions();
+      if (areGranted) {
         await ExpoLocation.startLocationUpdatesAsync(
-          LOCATION_BACKGROUND_TASK_NAME,
+          LOCATION_BACKGROUND_TRACKING,
           {
             accuracy: ExpoLocation.Accuracy.Balanced,
             timeInterval: LOCATION_TIME_INTERVAL,
           },
         );
+      } else {
+        setText('PERMISSIONS NOT GRANTED');
       }
     })();
   }, []);
 
-  // let text = 'dupadupa';
-
-  // if (location) {
-  //   text = JSON.stringify(location);
-  // }
-
-  return <Text>TEST TEXT FOR LOCATION</Text>;
+  return <Text>{text}</Text>;
 };
 
-defineTask(LOCATION_BACKGROUND_TASK_NAME, ({ data, error }) => {
+defineTask(LOCATION_BACKGROUND_TRACKING, ({ data, error }) => {
   if (error) {
-    // console.log('ERROR:', error);
-    return;
+    console.log('err', error);
   }
   if (data) {
-    // const { locations } = data;
-    // console.log('from background', locations);
+    console.log('data', data);
   }
 });
 
