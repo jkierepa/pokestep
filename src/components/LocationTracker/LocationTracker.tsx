@@ -4,15 +4,11 @@ import { Text } from 'react-native';
 import * as ExpoLocation from 'expo-location';
 import { defineTask } from 'expo-task-manager';
 
-import {
-  LOCATION_TIME_INTERVAL,
-  LOCATION_BACKGROUND_TRACKING,
-} from 'src/constants';
+import { LOCATION_TIME_INTERVAL, LOCATION_BACKGROUND_TRACKING } from 'consts';
 import checkLocationPermissions from './checkLocationPermissions';
 
 const LocationTracker = () => {
   const [text, setText] = useState<string>('TEST TEXT FOR LOCATION TRACKER');
-
   useEffect(() => {
     (async () => {
       const areGranted = await checkLocationPermissions();
@@ -21,7 +17,12 @@ const LocationTracker = () => {
           LOCATION_BACKGROUND_TRACKING,
           {
             accuracy: ExpoLocation.Accuracy.Balanced,
-            timeInterval: LOCATION_TIME_INTERVAL,
+            deferredUpdatesInterval: LOCATION_TIME_INTERVAL,
+            distanceInterval: 1,
+            foregroundService: {
+              notificationTitle: 'Searching pokemon near your location!',
+              notificationBody: 'NOTIFICATION BODY WIP ',
+            },
           },
         );
       } else {
@@ -38,7 +39,7 @@ defineTask(LOCATION_BACKGROUND_TRACKING, ({ data, error }) => {
     console.log('err', error);
   }
   if (data) {
-    console.log('data', data);
+    console.log(data);
   }
 });
 
