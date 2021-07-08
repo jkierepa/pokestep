@@ -5,8 +5,10 @@ import {
 
 const checkLocationPermissions = async (): Promise<boolean> => {
   let areGranted = false;
+
   const foregroundPermissionResponse = await requestForegroundPermissionsAsync();
   const backgroundPermissionResponse = await requestBackgroundPermissionsAsync();
+
   if (
     foregroundPermissionResponse.status === 'granted'
     && backgroundPermissionResponse.status === 'granted'
