@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 
-import * as ExpoLocation from 'expo-location';
+import {
+  startLocationUpdatesAsync,
+  Accuracy,
+  LocationObject,
+} from 'expo-location';
 import { defineTask } from 'expo-task-manager';
 
 import { LOCATION_TIME_INTERVAL, LOCATION_BACKGROUND_TRACKING } from 'consts';
@@ -13,18 +17,15 @@ const LocationTracker = () => {
     (async () => {
       const areGranted = await checkLocationPermissions();
       if (areGranted) {
-        await ExpoLocation.startLocationUpdatesAsync(
-          LOCATION_BACKGROUND_TRACKING,
-          {
-            accuracy: ExpoLocation.Accuracy.Balanced,
-            deferredUpdatesInterval: LOCATION_TIME_INTERVAL,
-            distanceInterval: 1,
-            foregroundService: {
-              notificationTitle: 'Searching pokemon near your location!',
-              notificationBody: 'NOTIFICATION BODY WIP ',
-            },
+        await startLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING, {
+          accuracy: Accuracy.Balanced,
+          deferredUpdatesInterval: LOCATION_TIME_INTERVAL,
+          distanceInterval: 1,
+          foregroundService: {
+            notificationTitle: 'Searching pokemon near your location!',
+            notificationBody: 'NOTIFICATION BODY WIP ',
           },
-        );
+        });
       } else {
         setText('PERMISSIONS NOT GRANTED');
       }
@@ -34,12 +35,19 @@ const LocationTracker = () => {
   return <Text>{text}</Text>;
 };
 
-defineTask(LOCATION_BACKGROUND_TRACKING, ({ data, error }) => {
-  if (error) {
-    console.log('err', error);
+type LocationData = {
+  locations: LocationObject[];
+};
+
+defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
+  if (body.error) {
+    console.log('err', body.error);
   }
-  if (data) {
-    console.log(data);
+  if ('locations' in body.data) {
+    const locationData = body.data as LocationData;
+    const [localization] = locationData.locations;
+    console.log(localization?.timestamp, localization.coords.latitude);
+    console.log(localization?.timestamp, localization.coords.longitude);
   }
 });
 
