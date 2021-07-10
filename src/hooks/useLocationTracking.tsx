@@ -1,52 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import {
   startLocationUpdatesAsync,
   Accuracy,
   LocationObject,
-  getCurrentPositionAsync,
+  stopLocationUpdatesAsync,
 } from 'expo-location';
 import { defineTask } from 'expo-task-manager';
-
-import Button from '@components/Button';
 
 import {
   LOCATION_TIME_INTERVAL,
   LOCATION_BACKGROUND_TRACKING,
+  NOTIFICATION_TITLE,
+  NOTIFICATION_BODY,
 } from '@constants';
-import checkLocationPermissions from './checkLocationPermissions';
 
-const LocationTracker = () => {
-  const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [currLocation, setCurrLocation] = useState<LocationObject>();
-
+const useLocationTracking = (
+  locationPermStatus: boolean,
+  startSearching: boolean,
+) => {
   useEffect(() => {
     (async () => {
-      const initLocation = await getCurrentPositionAsync();
-      setCurrLocation(initLocation);
-
-      const areGranted = await checkLocationPermissions();
-      if (areGranted) {
+      if (locationPermStatus && startSearching) {
         await startLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING, {
           accuracy: Accuracy.Balanced,
           timeInterval: LOCATION_TIME_INTERVAL,
           distanceInterval: 1,
           foregroundService: {
-            notificationTitle: 'Searching pokemon near your location!',
-            notificationBody: 'NOTIFICATION BODY WIP ',
+            notificationTitle: NOTIFICATION_TITLE,
+            notificationBody: NOTIFICATION_BODY,
           },
         });
-        setIsSearching(true);
+      }
+      if (locationPermStatus && !startSearching) {
+        await stopLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    console.log(currLocation);
-  }, [currLocation]);
-
-  return isSearching ? <Button /> : <Button />;
+  }, [startSearching]);
 };
+
+export default useLocationTracking;
 
 type LocationData = {
   locations: LocationObject[];
@@ -63,5 +56,3 @@ defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
     console.log(localization?.timestamp, localization.coords.longitude);
   }
 });
-
-export default LocationTracker;

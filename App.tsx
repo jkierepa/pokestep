@@ -1,15 +1,21 @@
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 import { StatusBar } from 'expo-status-bar';
 
-import SafeArea from './src/components/SafeArea/SafeArea';
-import LocationTracker from './src/components/LocationTracker/LocationTracker';
+import { ThemeProvider } from 'styled-components/native';
+import defaultTheme from './src/theme/theme';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <SafeArea>
-      <LocationTracker />
-      <StatusBar style="auto" />
-    </SafeArea>
+    <ThemeProvider theme={defaultTheme}>
+      <NavigationContainer>
+        <Stack.Navigator />
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }

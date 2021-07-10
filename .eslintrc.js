@@ -25,6 +25,7 @@ module.exports = {
     'react/style-prop-object': 0,
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-console': 0,
+    'react/require-default-props': 0,
   },
   overrides: [
     {
