@@ -26,6 +26,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-console': 0,
     'react/require-default-props': 0,
+    'no-param-reassign': ['error', { props: false }],
   },
   overrides: [
     {
