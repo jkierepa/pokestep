@@ -7,5 +7,5 @@ export type CoordinateState = {
 
 export type Coordinates = {
   latitude: number;
-  longitute: number;
+  longitude: number;
 };

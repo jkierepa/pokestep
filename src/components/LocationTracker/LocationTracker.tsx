@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { LocationObject, getCurrentPositionAsync } from 'expo-location';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { resetCoords } from '../../store/coordinate/slice';
+import calculateDistance from '../../utils/calculateDistance';
 
 import Button from '../Button';
 import useLocationPermissions from '../../hooks/useLocationPermissions';
@@ -13,25 +15,27 @@ import {
 
 const LocationTracker = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
-  const [currLocation, setCurrLocation] = useState<LocationObject>();
+
+  const dispatch = useAppDispatch();
+  const coords = useAppSelector((state) => state.coordinate);
 
   const locationPermStatus = useLocationPermissions();
 
   useEffect(() => {
-    (async () => {
-      const initLocation = await getCurrentPositionAsync();
-      setCurrLocation(initLocation);
-    })();
-  }, []);
-
-  useEffect(() => {
-    console.log('currLoc', currLocation);
-  }, [currLocation]);
+    const distance = calculateDistance(
+      coords.currLat,
+      coords.currLon,
+      coords.prevLat,
+      coords.prevLon,
+    );
+    console.log(distance);
+  }, [coords]);
 
   const handlePress = () => {
     if (isSearching) {
       stopLocationTracking(locationPermStatus);
       setIsSearching(false);
+      dispatch(resetCoords());
     } else {
       startLocationTracking(locationPermStatus);
       setIsSearching(true);

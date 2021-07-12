@@ -5,6 +5,9 @@ import {
 } from 'expo-location';
 import { defineTask } from 'expo-task-manager';
 
+import { store } from '../../store/store';
+import { addCoords } from '../../store/coordinate/slice';
+
 import {
   LOCATION_TIME_INTERVAL,
   LOCATION_BACKGROUND_TRACKING,
@@ -43,6 +46,12 @@ defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
     const [localization] = locationData.locations;
     console.log(localization?.timestamp, localization.coords.latitude);
     console.log(localization?.timestamp, localization.coords.longitude);
+    store.dispatch(
+      addCoords({
+        latitude: localization.coords.latitude,
+        longitude: localization.coords.longitude,
+      }),
+    );
   }
 });
 
