@@ -1,67 +1,49 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  startLocationUpdatesAsync,
-  Accuracy,
-  LocationObject,
-  getCurrentPositionAsync,
-} from 'expo-location';
-import { defineTask } from 'expo-task-manager';
+import { LocationObject, getCurrentPositionAsync } from 'expo-location';
 
-import Button from '@components/Button';
-
+import Button from '../Button';
+import useLocationPermissions from '../../hooks/useLocationPermissions';
+import startLocationTracking from '../../infrastructure/locationTracking/startLocationTracking';
+import stopLocationTracking from '../../infrastructure/locationTracking/stopLocationTracking';
 import {
-  LOCATION_TIME_INTERVAL,
-  LOCATION_BACKGROUND_TRACKING,
-} from '@constants';
-import checkLocationPermissions from './checkLocationPermissions';
+  SEARCH_BUTTON_START_TEXT,
+  SEARCH_BUTTON_STOP_TEXT,
+} from '../../constants';
 
 const LocationTracker = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [currLocation, setCurrLocation] = useState<LocationObject>();
 
+  const locationPermStatus = useLocationPermissions();
+
   useEffect(() => {
     (async () => {
       const initLocation = await getCurrentPositionAsync();
       setCurrLocation(initLocation);
-
-      const areGranted = await checkLocationPermissions();
-      if (areGranted) {
-        await startLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING, {
-          accuracy: Accuracy.Balanced,
-          timeInterval: LOCATION_TIME_INTERVAL,
-          distanceInterval: 1,
-          foregroundService: {
-            notificationTitle: 'Searching pokemon near your location!',
-            notificationBody: 'NOTIFICATION BODY WIP ',
-          },
-        });
-        setIsSearching(true);
-      }
     })();
   }, []);
 
   useEffect(() => {
-    console.log(currLocation);
+    console.log('currLoc', currLocation);
   }, [currLocation]);
 
-  return isSearching ? <Button /> : <Button />;
-};
+  const handlePress = () => {
+    if (isSearching) {
+      stopLocationTracking(locationPermStatus);
+      setIsSearching(false);
+    } else {
+      startLocationTracking(locationPermStatus);
+      setIsSearching(false);
+    }
+  };
 
-type LocationData = {
-  locations: LocationObject[];
+  return (
+    <Button
+      onPress={handlePress}
+      text={isSearching ? SEARCH_BUTTON_START_TEXT : SEARCH_BUTTON_STOP_TEXT}
+    />
+  );
 };
-
-defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
-  if (body.error) {
-    console.log('err', body.error);
-  }
-  if ('locations' in body.data) {
-    const locationData = body.data as LocationData;
-    const [localization] = locationData.locations;
-    console.log(localization?.timestamp, localization.coords.latitude);
-    console.log(localization?.timestamp, localization.coords.longitude);
-  }
-});
 
 export default LocationTracker;

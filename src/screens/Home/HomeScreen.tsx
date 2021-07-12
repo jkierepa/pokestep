@@ -1,7 +1,7 @@
 import React from 'react';
 
-import SafeArea from '@components/SafeArea';
-import LocationTracker from '@components/LocationTracker';
+import SafeArea from '../../components/SafeArea';
+import LocationTracker from '../../components/LocationTracker';
 
 const HomeScreen = () => (
   <SafeArea>
