@@ -8,15 +8,16 @@ const StyledButtonText = styled.Text`
 `;
 
 const StyledButton = styled.TouchableOpacity`
+  display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 200px;
-  height: 50px;
+  width: 250px;
+  height: 75px;
 
   background-color: ${({ theme }) => theme.color.main};
 
-  border-radius: 5px;
+  border-radius: 10px;
   border-width: 5px;
   border-style: solid;
   border-color: ${({ theme }) => theme.color.main};

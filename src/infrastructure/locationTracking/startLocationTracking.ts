@@ -1,4 +1,9 @@
-import { startLocationUpdatesAsync, Accuracy } from 'expo-location';
+import {
+  startLocationUpdatesAsync,
+  Accuracy,
+  LocationObject,
+} from 'expo-location';
+import { defineTask } from 'expo-task-manager';
 
 import {
   LOCATION_TIME_INTERVAL,
@@ -10,10 +15,12 @@ import {
 const startLocationTracking = async (
   locationPermStatus: boolean,
 ): Promise<void> => {
+  console.log('here?');
   if (locationPermStatus) {
+    console.log('here2?');
     await startLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING, {
       accuracy: Accuracy.Balanced,
-      timeInterval: LOCATION_TIME_INTERVAL,
+      deferredUpdatesInterval: LOCATION_TIME_INTERVAL,
       distanceInterval: 1,
       foregroundService: {
         notificationTitle: NOTIFICATION_TITLE,
@@ -22,5 +29,21 @@ const startLocationTracking = async (
     });
   }
 };
+
+type LocationData = {
+  locations: LocationObject[];
+};
+
+defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
+  if (body.error) {
+    console.log('err', body.error);
+  }
+  if ('locations' in body.data) {
+    const locationData = body.data as LocationData;
+    const [localization] = locationData.locations;
+    console.log(localization?.timestamp, localization.coords.latitude);
+    console.log(localization?.timestamp, localization.coords.longitude);
+  }
+});
 
 export default startLocationTracking;

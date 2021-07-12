@@ -34,14 +34,14 @@ const LocationTracker = () => {
       setIsSearching(false);
     } else {
       startLocationTracking(locationPermStatus);
-      setIsSearching(false);
+      setIsSearching(true);
     }
   };
 
   return (
     <Button
       onPress={handlePress}
-      text={isSearching ? SEARCH_BUTTON_START_TEXT : SEARCH_BUTTON_STOP_TEXT}
+      text={isSearching ? SEARCH_BUTTON_STOP_TEXT : SEARCH_BUTTON_START_TEXT}
     />
   );
 };

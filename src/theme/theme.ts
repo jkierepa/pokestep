@@ -16,11 +16,11 @@ declare module 'styled-components' {
 
 const defaultTheme: DefaultTheme = {
   color: {
-    main: '#b9855b',
-    secondary: '#b6c6ce',
+    main: '#e9a57b',
+    secondary: '#d5e5ee',
   },
   backgroundColor: {
-    main: '#b5c5ce',
+    main: '#d5e5ee',
     secondary: '#252a3a',
   },
 };
