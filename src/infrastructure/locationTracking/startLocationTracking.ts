@@ -22,7 +22,7 @@ const startLocationTracking = async (
   if (locationPermStatus) {
     console.log('here2?');
     await startLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING, {
-      accuracy: Accuracy.Balanced,
+      accuracy: Accuracy.High,
       deferredUpdatesInterval: LOCATION_TIME_INTERVAL,
       distanceInterval: 1,
       foregroundService: {
@@ -44,14 +44,18 @@ defineTask(LOCATION_BACKGROUND_TRACKING, (body) => {
   if ('locations' in body.data) {
     const locationData = body.data as LocationData;
     const [localization] = locationData.locations;
-    console.log(localization?.timestamp, localization.coords.latitude);
-    console.log(localization?.timestamp, localization.coords.longitude);
-    store.dispatch(
-      addCoords({
-        latitude: localization.coords.latitude,
-        longitude: localization.coords.longitude,
-      }),
-    );
+
+    if (localization?.coords.speed) {
+      console.log('speed', localization.coords.speed);
+      if (localization.coords.speed < 10) {
+        store.dispatch(
+          addCoords({
+            latitude: localization.coords.latitude,
+            longitude: localization.coords.longitude,
+          }),
+        );
+      }
+    }
   }
 });
 

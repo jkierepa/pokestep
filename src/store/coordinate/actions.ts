@@ -9,7 +9,6 @@ export const addCoordsAction = (
   state.prevLat = state.currLat;
   state.currLon = action.payload.longitude;
   state.currLat = action.payload.latitude;
-  console.log('state', state);
 };
 
 export const resetCoordsAction = (state: CoordinateState): void => {
@@ -17,5 +16,4 @@ export const resetCoordsAction = (state: CoordinateState): void => {
   state.prevLat = 0;
   state.currLon = 0;
   state.currLat = 0;
-  console.log('statereset', state);
 };
