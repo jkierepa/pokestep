@@ -9,3 +9,9 @@ export type Coordinates = {
   latitude: number;
   longitude: number;
 };
+
+export type DistanceState = {
+  currentDistance: number;
+  threshold: number;
+  pokemonFound: number;
+};
