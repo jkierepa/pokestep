@@ -18,4 +18,13 @@ const subtractDistanceAction = (
   }
 };
 
-export default subtractDistanceAction;
+const setDistanceStateAction = (
+  state: DistanceState,
+  action: PayloadAction<DistanceState>,
+): void => {
+  state.currentDistance = action.payload.currentDistance;
+  state.pokemonFound = action.payload.pokemonFound;
+  state.threshold = action.payload.threshold;
+};
+
+export { subtractDistanceAction, setDistanceStateAction };

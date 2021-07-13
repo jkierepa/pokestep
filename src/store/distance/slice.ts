@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { DistanceState } from '../../types';
-import subtractDistanceAction from './actions';
+import { subtractDistanceAction, setDistanceStateAction } from './actions';
 
 const initialState: DistanceState = {
   currentDistance: 0,
@@ -15,8 +15,11 @@ export const distanceSlice = createSlice({
     subtractDistance: (state, action: PayloadAction<number>) => {
       subtractDistanceAction(state, action);
     },
+    setDistanceState: (state, action: PayloadAction<DistanceState>) => {
+      setDistanceStateAction(state, action);
+    },
   },
 });
 
-export const { subtractDistance } = distanceSlice.actions;
+export const { subtractDistance, setDistanceState } = distanceSlice.actions;
 export default distanceSlice.reducer;
