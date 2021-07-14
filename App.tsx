@@ -11,12 +11,15 @@ import { store } from './src/store/store';
 
 import defaultTheme from './src/theme/theme';
 
+import StorageHandler from './src/components/StorageHandler/StorageHandler';
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
+        <StorageHandler />
         <NavigationContainer>
           <Stack.Navigator headerMode="none">
             <Stack.Screen name="Home" component={HomeScreen} />

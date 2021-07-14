@@ -1,3 +1,5 @@
+import checkDistance from './checkDistance';
+
 const calculateDistance = (
   currLat: number,
   currLon: number,
@@ -18,7 +20,7 @@ const calculateDistance = (
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = R * c;
-  return distance;
+  return checkDistance(distance);
 };
 
 export default calculateDistance;

@@ -12,6 +12,7 @@ import {
   SEARCH_BUTTON_START_TEXT,
   SEARCH_BUTTON_STOP_TEXT,
 } from '../../constants';
+import { updateDistance } from '../../store/distance/slice';
 
 const LocationTracker = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -22,13 +23,16 @@ const LocationTracker = () => {
   const locationPermStatus = useLocationPermissions();
 
   useEffect(() => {
-    const distance = calculateDistance(
-      coords.currLat,
-      coords.currLon,
-      coords.prevLat,
-      coords.prevLon,
-    );
-    console.log(distance);
+    if (coords.prevLat !== 0 && coords.prevLon !== 0) {
+      const distance = calculateDistance(
+        coords.currLat,
+        coords.currLon,
+        coords.prevLat,
+        coords.prevLon,
+      );
+      dispatch(updateDistance(distance));
+      console.log(distance);
+    }
   }, [coords]);
 
   const handlePress = () => {

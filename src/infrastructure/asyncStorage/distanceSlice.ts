@@ -1,6 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { setDistanceState } from 'src/store/distance/slice';
-import { store } from '../../store/store';
 import type { DistanceState } from '../../types';
 
 const storeDistanceSliceData = async (value: DistanceState): Promise<void> => {
@@ -12,16 +10,17 @@ const storeDistanceSliceData = async (value: DistanceState): Promise<void> => {
   }
 };
 
-const getDistanceSliceData = async (): Promise<void> => {
+const getDistanceSliceData = async (): Promise<DistanceState | void> => {
   try {
     const jsonValue = await AsyncStorage.getItem('@storage_Key');
     if (jsonValue !== null) {
       const value = JSON.parse(jsonValue);
-      store.dispatch(setDistanceState(value));
+      return value;
     }
   } catch (e) {
     console.log('asyncStoreErr', e);
   }
+  return Promise.resolve();
 };
 
 export { storeDistanceSliceData, getDistanceSliceData };

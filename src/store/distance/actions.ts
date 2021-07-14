@@ -1,14 +1,16 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { storeDistanceSliceData } from '../../infrastructure/asyncStorage/distanceSlice';
 import type { DistanceState } from '../../types';
 import getRandIntinRange from '../../utils/getRandIntInRange';
 import { THRESHOLD_METERS_MIN, THRESHOLD_METERS_MAX } from '../../constants';
 
-const subtractDistanceAction = (
+const updateDistanceAction = (
   state: DistanceState,
   action: PayloadAction<number>,
 ): void => {
-  state.currentDistance -= action.payload;
-  if (state.threshold <= 0) {
+  console.log('distanceUpdate');
+  state.currentDistance += action.payload;
+  if (state.threshold <= state.currentDistance) {
     state.currentDistance = 0;
     state.pokemonFound += 1;
     state.threshold = getRandIntinRange(
@@ -16,6 +18,7 @@ const subtractDistanceAction = (
       THRESHOLD_METERS_MAX,
     );
   }
+  storeDistanceSliceData(state);
 };
 
 const setDistanceStateAction = (
@@ -27,4 +30,4 @@ const setDistanceStateAction = (
   state.threshold = action.payload.threshold;
 };
 
-export { subtractDistanceAction, setDistanceStateAction };
+export { updateDistanceAction, setDistanceStateAction };
