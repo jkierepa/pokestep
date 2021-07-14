@@ -30,8 +30,9 @@ const LocationTracker = () => {
         coords.prevLat,
         coords.prevLon,
       );
-      dispatch(updateDistance(distance));
-      console.log(distance);
+      if (distance) {
+        dispatch(updateDistance(distance));
+      }
     }
   }, [coords]);
 

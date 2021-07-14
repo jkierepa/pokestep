@@ -7,6 +7,7 @@ const stopLocationTracking = async (
 ): Promise<void> => {
   if (locationPermStatus) {
     await stopLocationUpdatesAsync(LOCATION_BACKGROUND_TRACKING);
+    console.log('[BACKGROUND TRACKING] - STOPPED');
   }
 };
 

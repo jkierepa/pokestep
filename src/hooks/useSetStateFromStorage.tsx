@@ -8,7 +8,6 @@ const useSetStateFromStorage = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('useSetStateFromStorage');
       const data = await getDistanceSliceData();
       if (data) {
         dispatch(setDistanceState(data));

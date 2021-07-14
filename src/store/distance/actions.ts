@@ -1,5 +1,4 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { storeDistanceSliceData } from '../../infrastructure/asyncStorage/distanceSlice';
 import type { DistanceState } from '../../types';
 import getRandIntinRange from '../../utils/getRandIntInRange';
 import { THRESHOLD_METERS_MIN, THRESHOLD_METERS_MAX } from '../../constants';
@@ -8,7 +7,6 @@ const updateDistanceAction = (
   state: DistanceState,
   action: PayloadAction<number>,
 ): void => {
-  console.log('distanceUpdate');
   state.currentDistance += action.payload;
   if (state.threshold <= state.currentDistance) {
     state.currentDistance = 0;
@@ -18,7 +16,8 @@ const updateDistanceAction = (
       THRESHOLD_METERS_MAX,
     );
   }
-  storeDistanceSliceData(state);
+  console.log('[DISTANCE STATE] - UPDATED');
+  console.log('[DISTANCE STATE]', state);
 };
 
 const setDistanceStateAction = (

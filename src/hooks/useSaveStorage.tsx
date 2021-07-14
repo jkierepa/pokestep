@@ -6,9 +6,7 @@ const useSaveStorage = () => {
   const distanceState = useAppSelector((state) => state.distance);
 
   useEffect(() => {
-    console.log('useSaveStorage');
     storeDistanceSliceData(distanceState);
-    console.log(distanceState);
   }, [distanceState]);
 };
 
