@@ -15,3 +15,24 @@ export type DistanceState = {
   threshold: number;
   pokemonFound: number;
 };
+
+export type PokemonSpecies = {
+  name: string;
+  url: string;
+};
+
+export type PokemonSprites = {
+  static: {
+    backDefault: string;
+    frontDefault: string;
+  };
+  animated: {
+    backDefault: string;
+    frontDefault: string;
+  };
+};
+
+export type PokemonBasic = {
+  name: string;
+  sprites: PokemonSprites;
+};

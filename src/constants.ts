@@ -9,3 +9,5 @@ export const SEARCH_BUTTON_STOP_TEXT = 'STOP SEARCHING';
 
 export const THRESHOLD_METERS_MIN = 1500;
 export const THRESHOLD_METERS_MAX = 1500;
+
+export const LAST_POKEMON_ID = 493;
