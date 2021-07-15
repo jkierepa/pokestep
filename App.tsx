@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 
 import { ThemeProvider } from 'styled-components/native';
-import HomeScreen from './src/screens/Home/HomeScreen';
+import HomeScreen from '@screens/Home/HomeScreen';
 import { store } from './src/store/store';
 
 import defaultTheme from './src/theme/theme';
