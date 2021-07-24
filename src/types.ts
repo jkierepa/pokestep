@@ -16,6 +16,15 @@ export type DistanceState = {
   pokemonFound: number;
 };
 
+export type PokemonState = {
+  pokemon: PokemonBasic[];
+};
+
+export type PokemonEgg = {
+  name: string;
+  url: string;
+};
+
 export type PokemonSpecies = {
   name: string;
   url: string;
@@ -34,5 +43,6 @@ export type PokemonSprites = {
 
 export type PokemonBasic = {
   name: string;
+  id: number;
   sprites: PokemonSprites;
 };

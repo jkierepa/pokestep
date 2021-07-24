@@ -3,11 +3,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import coordinateReducer from './coordinate/slice';
 import distanceReducer from './distance/slice';
+import pokemonReducer from './pokemon/slice';
 
 export const store = configureStore({
   reducer: {
     coordinate: coordinateReducer,
     distance: distanceReducer,
+    pokemon: pokemonReducer,
   },
 });
 

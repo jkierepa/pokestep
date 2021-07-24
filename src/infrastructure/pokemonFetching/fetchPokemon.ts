@@ -1,12 +1,14 @@
 import { PokemonBasic } from '@types';
 
-const fetchPokemon = async (id: number): Promise<void> => {
+const fetchPokemon = async (id: number): Promise<PokemonBasic | undefined> => {
+  if (!id) return undefined;
   const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${id}/`;
   const resp = await fetch(pokemonUrl);
   const pokemonData = await resp.json();
   const pokemonSprites = pokemonData?.sprites?.versions;
   const pokemon: PokemonBasic = {
     name: pokemonData.name,
+    id,
     sprites: {
       static: {
         backDefault: pokemonSprites['generation-v']['black-white'].back_default,
@@ -21,7 +23,8 @@ const fetchPokemon = async (id: number): Promise<void> => {
       },
     },
   };
-  console.log('pokemon', pokemon);
+
+  return pokemon;
 };
 
 export default fetchPokemon;

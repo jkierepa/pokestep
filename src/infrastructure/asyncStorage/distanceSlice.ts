@@ -4,23 +4,23 @@ import type { DistanceState } from '../../types';
 const storeDistanceSliceData = async (value: DistanceState): Promise<void> => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem('@storage_Key', jsonValue);
-    console.log('[STORAGE] - SAVED');
+    await AsyncStorage.setItem('@distance', jsonValue);
+    console.log('[STORAGE DISTANCE] - SAVED');
   } catch (e) {
-    console.log('[STORAGE] - SAVED ERROR', e);
+    console.log('[STORAGE DISTANCE] - SAVED ERROR', e);
   }
 };
 
 const getDistanceSliceData = async (): Promise<DistanceState | void> => {
   try {
-    const jsonValue = await AsyncStorage.getItem('@storage_Key');
+    const jsonValue = await AsyncStorage.getItem('@distance');
     if (jsonValue !== null) {
       const value = JSON.parse(jsonValue);
-      console.log('[STORAGE] - LOADED');
+      console.log('[STORAGE DISTANCE] - LOADED');
       return value;
     }
   } catch (e) {
-    console.log('[STORAGE] - LOADED ERROR', e);
+    console.log('[STORAGE DISTANCE] - LOADED ERROR', e);
   }
   return Promise.resolve();
 };

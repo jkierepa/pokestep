@@ -1,29 +1,43 @@
-import eggs from '@data/pokemonEggTypes.json';
-
-import type { PokemonSpecies } from '@types';
-import { LAST_POKEMON_ID } from '@constants';
+import type { PokemonSpecies, PokemonEgg } from '@types';
+import { LAST_POKEMON_ID, EGG_GROUPS_API } from '@constants';
 
 import getRandArrayElem from '@utils/getRandArrayElem';
 import getIdFromUrl from '@utils/getIdFromUrl';
+import shuffleArray from '@utils/shuffleArray';
+
+import checkPokemonValidity from './checkPokemonValidity';
 
 const getPokemonId = async (): Promise<number> => {
-  const types = eggs.results;
-  const selectedType = getRandArrayElem(types);
+  const eggGroups = await fetch(EGG_GROUPS_API);
+  const eggs = await eggGroups.json();
+
+  const selectedType: PokemonEgg = getRandArrayElem(eggs.results);
   const pokemonInType = await fetch(selectedType.url);
   const inTypeJson = await pokemonInType.json();
 
-  const correctGen = inTypeJson.pokemon_species.filter(
+  const correctGen: PokemonSpecies[] = inTypeJson.pokemon_species.filter(
     (species: PokemonSpecies) => {
       const id = getIdFromUrl(species.url);
-      if (id <= LAST_POKEMON_ID) {
-        return species;
-      }
-      return null;
+
+      if (id > LAST_POKEMON_ID) return null;
+      return species;
     },
   );
 
-  const selectedPokemon: PokemonSpecies = getRandArrayElem(correctGen);
-  const pokemonId = getIdFromUrl(selectedPokemon.url);
+  const shuffled = shuffleArray(correctGen);
+
+  let isValid = false;
+  let pokemonId = 0;
+  while (!isValid && correctGen.length) {
+    const selectedPokemon = shuffled.shift();
+
+    if (selectedPokemon) {
+      pokemonId = getIdFromUrl(selectedPokemon.url);
+      /* eslint-disable no-await-in-loop */
+      isValid = await checkPokemonValidity(pokemonId);
+    }
+  }
+
   return pokemonId;
 };
 
