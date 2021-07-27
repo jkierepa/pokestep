@@ -33,7 +33,7 @@ const getPokemonId = async (): Promise<number> => {
 
     if (selectedPokemon) {
       pokemonId = getIdFromUrl(selectedPokemon.url);
-      /* eslint-disable no-await-in-loop */
+      /* eslint-disable-next-line no-await-in-loop */
       isValid = await checkPokemonValidity(pokemonId);
     }
   }
