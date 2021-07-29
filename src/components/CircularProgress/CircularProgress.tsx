@@ -15,6 +15,7 @@ type Props = {
 
 const CircularProgress = ({ percentage }: Props) => {
   const progressAnimation = useRef(new Animated.Value(0)).current;
+
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const progressRef = useRef<any>(null); // SVG types wtf?
 

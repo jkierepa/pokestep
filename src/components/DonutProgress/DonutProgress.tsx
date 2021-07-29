@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, View } from 'react-native';
+import {
+  Animated, View, TextInput, StyleSheet,
+} from 'react-native';
 import { Circle, Svg, G } from 'react-native-svg';
 
 type Props = {
@@ -8,9 +10,11 @@ type Props = {
   donutWidth?: number;
   currentValue?: number;
   maxValue?: number;
+  textColor?: string | '';
 };
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 const DonutProgress = ({
   radius = 100,
@@ -18,9 +22,11 @@ const DonutProgress = ({
   donutWidth = 30,
   currentValue = 19,
   maxValue = 100,
+  textColor,
 }: Props) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const animatedCircleRef = useRef<any>(); // SVG types pls stop
+  const animatedTextInputRef = useRef<TextInput>();
   const animatedValue = useRef(new Animated.Value(0)).current;
   const animation = (toValue: number) => Animated.timing(animatedValue, {
     toValue,
@@ -42,8 +48,16 @@ const DonutProgress = ({
           strokeDashoffset,
         });
       }
+      if (animatedTextInputRef?.current) {
+        animatedTextInputRef.current.setNativeProps({
+          text: `${Math.round(value)}`,
+        });
+      }
     });
-  }, [currentValue]);
+    return () => {
+      animatedValue.removeAllListeners();
+    };
+  }, [currentValue, maxValue]);
 
   return (
     <View>
@@ -75,6 +89,21 @@ const DonutProgress = ({
           />
         </G>
       </Svg>
+      <AnimatedTextInput
+        ref={animatedTextInputRef}
+        underlineColorAndroid="transparent"
+        editable={false}
+        defaultValue="0"
+        style={[
+          StyleSheet.absoluteFillObject,
+          {
+            fontSize: radius / 2,
+            color: textColor ?? color,
+            fontWeight: 'bold',
+            textAlign: 'center',
+          },
+        ]}
+      />
     </View>
   );
 };
