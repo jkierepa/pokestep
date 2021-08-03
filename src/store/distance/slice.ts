@@ -4,7 +4,8 @@ import { updateDistanceAction, setDistanceStateAction } from './actions';
 
 const initialState: DistanceState = {
   currentDistance: 0,
-  threshold: 1000,
+  // dev change from threshold: 1000,
+  threshold: 5,
   pokemonFound: 0,
 };
 
