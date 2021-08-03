@@ -7,8 +7,8 @@ export const NOTIFICATION_BODY = 'BODY WIP';
 export const SEARCH_BUTTON_START_TEXT = 'START SEARCHING';
 export const SEARCH_BUTTON_STOP_TEXT = 'STOP SEARCHING';
 
-export const THRESHOLD_METERS_MIN = 1500;
-export const THRESHOLD_METERS_MAX = 1500;
+export const THRESHOLD_METERS_MIN = 5;
+export const THRESHOLD_METERS_MAX = 10;
 
 export const LAST_POKEMON_ID = 493;
 export const EGG_GROUPS_API = 'https://pokeapi.co/api/v2/egg-group/';

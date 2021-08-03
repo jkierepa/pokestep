@@ -1,26 +1,30 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  Animated, View, TextInput, StyleSheet,
+  Animated,
+  View,
+  TextInput,
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import { Circle, Svg, G } from 'react-native-svg';
-
-type Props = {
-  radius?: number;
-  color?: 'green' | 'red';
-  donutWidth?: number;
-  currentValue?: number;
-  maxValue?: number;
-  textColor?: string | '';
-};
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
+type Props = {
+  padding?: number;
+  donutWidth?: number;
+  currentValue: number;
+  maxValue?: number;
+  color?: string;
+  textColor?: string;
+};
+
 const DonutProgress = ({
-  radius = 100,
-  color = 'green',
-  donutWidth = 30,
-  currentValue = 19,
+  padding = 0,
+  color,
+  donutWidth = 20,
+  currentValue,
   maxValue = 100,
   textColor,
 }: Props) => {
@@ -35,7 +39,9 @@ const DonutProgress = ({
     useNativeDriver: true,
   }).start();
 
-  const viewBoxSize = radius + donutWidth;
+  const { width } = Dimensions.get('window');
+  const viewBoxSize = width - padding;
+  const radius = (viewBoxSize - donutWidth) / 2;
   const circumference = Math.PI * 2 * radius;
 
   useEffect(() => {
@@ -50,7 +56,7 @@ const DonutProgress = ({
       }
       if (animatedTextInputRef?.current) {
         animatedTextInputRef.current.setNativeProps({
-          text: `${Math.round(value)}`,
+          text: `${Math.round(value)}%`,
         });
       }
     });
