@@ -9,6 +9,8 @@ import { ThemeProvider } from 'styled-components/native';
 import { store } from '@store/store';
 import HomeScreen from '@screens/Home/HomeScreen';
 import EggScreen from '@screens/Egg/EggScreen';
+import BackpackScreen from '@screens/Backpack/BackpackScreen';
+import PokeballScreen from '@screens/Pokeball/PokeballScreen';
 import { RootStackParamList } from '@navTypes';
 import StorageHandler from '@components/StorageHandler/StorageHandler';
 import defaultTheme from '@theme/theme';
@@ -24,6 +26,8 @@ export default function App() {
           <Stack.Navigator headerMode="none">
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Egg" component={EggScreen} />
+            <Stack.Screen name="Backpack" component={BackpackScreen} />
+            <Stack.Screen name="Pokeball" component={PokeballScreen} />
           </Stack.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />

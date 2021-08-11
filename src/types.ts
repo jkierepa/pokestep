@@ -46,3 +46,30 @@ export type PokemonBasic = {
   id: number;
   sprites: PokemonSprites;
 };
+
+export type HamburgerTypes =
+  | 'backpack'
+  | 'egg'
+  | 'home'
+  | 'pokeball'
+  | 'hamburger';
+
+export type EggTypes =
+  | 'eggGreenBig'
+  | 'eggBlue'
+  | 'eggRed'
+  | 'eggGold'
+  | 'eggGreen'
+  | 'eggOrange';
+
+export type GenericFunc<T extends unknown[]> = (...args: T[]) => unknown;
+
+/*
+
+type Props<T extends unknown[]> = {
+  func: someFunction<T>
+}
+
+type someFunction<T extends unknown[]> = (...args: T) => unknown
+
+*/
