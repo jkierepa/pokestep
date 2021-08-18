@@ -27,3 +27,34 @@ export const VALID_GENERATIONS = [
   'generation-ii',
   'generation-iii',
 ];
+
+export const POKEMON_TYPE_COLORS = {
+  bug: '#bae05f',
+  dark: '#8e8c94',
+  dragon: '#88a2e8',
+  fairy: '#fdb9e9',
+  fighting: '#da7589',
+  fire: '#ffb971',
+  flying: '#bbc9e4',
+  electric: '#ffe662',
+  ghost: '#8291e0',
+  plant: '#a8ff98',
+  grass: '#a8ff98',
+  ground: '#e69a74',
+  normal: '#dcdcdc',
+  poison: '#d6a2e4',
+  psychic: '#ffa5da',
+  rock: '#C9BB8A',
+  steel: '#9fb8b9',
+  water: '#8cc4e2',
+  ice: '#8cf5e4',
+  default: '#ffffff',
+};
+
+export const EGG_TYPES = [
+  'eggBlue',
+  'eggRed',
+  'eggGold',
+  'eggGreen',
+  'eggOrange',
+];

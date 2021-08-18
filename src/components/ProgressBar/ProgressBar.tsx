@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Animated } from 'react-native';
 
-import { StyledProgressBar, AnimatedProgressBar } from './styled';
+import styles from './styles';
 
 type Props = {
   currentValue: number;
   maxValue: number;
+  fillColor?: string;
 };
 
-const ProgressBar = ({ currentValue, maxValue }: Props) => {
+const ProgressBar = ({ currentValue, maxValue, fillColor = 'red' }: Props) => {
   const [progress, setProgress] = useState<number>(0);
-  const animation = useRef(new Animated.Value(0));
+  const animation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const percentage = Math.round((currentValue / maxValue) * 100);
@@ -18,32 +19,26 @@ const ProgressBar = ({ currentValue, maxValue }: Props) => {
   }, [currentValue]);
 
   useEffect(() => {
-    Animated.timing(animation.current, {
+    Animated.timing(animation, {
       toValue: progress,
       duration: 100,
       useNativeDriver: false,
     }).start();
   }, [progress]);
 
-  const width = animation.current.interpolate({
+  const width = animation.interpolate({
     inputRange: [0, 100],
     outputRange: ['0%', '100%'],
     extrapolate: 'clamp',
   });
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-      }}
-    >
-      <StyledProgressBar>
-        <AnimatedProgressBar style={{ width }} />
-      </StyledProgressBar>
+    <View style={styles.container}>
+      <View style={styles.progressBar}>
+        <Animated.View
+          style={[styles.filled, { width, backgroundColor: fillColor }]}
+        />
+      </View>
     </View>
   );
 };

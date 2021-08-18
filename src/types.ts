@@ -13,7 +13,7 @@ export type Coordinates = {
 export type DistanceState = {
   currentDistance: number;
   threshold: number;
-  pokemonFound: number;
+  pokemonFound: PokemonEgg[];
 };
 
 export type PokemonState = {
@@ -21,6 +21,10 @@ export type PokemonState = {
 };
 
 export type PokemonEgg = {
+  eggType: string;
+};
+
+export type FetchedPokemonEgg = {
   name: string;
   url: string;
 };
@@ -44,6 +48,7 @@ export type PokemonSprites = {
 export type PokemonBasic = {
   name: string;
   id: number;
+  types: PokemonType[];
   sprites: PokemonSprites;
 };
 
@@ -62,8 +67,36 @@ export type EggTypes =
   | 'eggGreen'
   | 'eggOrange';
 
+export type EggTypeSmall = Omit<EggTypes, 'eggGreenBig'>;
+
 export type GenericFunc<T extends unknown[]> = (...args: T[]) => unknown;
 
+export type RgbObject = {
+  r: number;
+  g: number;
+  b: number;
+};
+
+export type PokemonType =
+  | 'normal'
+  | 'fire'
+  | 'fighting'
+  | 'flying'
+  | 'plant'
+  | 'grass'
+  | 'poison'
+  | 'ground'
+  | 'rock'
+  | 'bug'
+  | 'ghost'
+  | 'steel'
+  | 'water'
+  | 'fairy'
+  | 'electric'
+  | 'psychic'
+  | 'ice'
+  | 'dragon'
+  | 'dark';
 /*
 
 type Props<T extends unknown[]> = {

@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Image } from 'react-native';
 
 import Button from '@components/Button';
 import fetchPokemon from '@infrastructure/pokemonFetching/fetchPokemon';
 import getPokemonId from '@infrastructure/pokemonFetching/getPokemonId';
+import { PokemonBasic } from '@types';
+import PokemonCard from '@components/PokemonCard/PokemonCard';
 
 const Fetcher = () => {
-  const [pokemonDisplay, setPokemonDisplay] = useState<string>();
+  const [pokemonDisplay, setPokemonDisplay] = useState<
+  PokemonBasic | undefined
+  >(undefined);
 
   const onPressHandler = () => {
     (async () => {
       const id = await getPokemonId();
       const pokemon = await fetchPokemon(id);
-      setPokemonDisplay(pokemon.sprites.animated.frontDefault);
+      if (pokemon) setPokemonDisplay(pokemon);
     })();
   };
 
@@ -20,9 +23,12 @@ const Fetcher = () => {
     <>
       <Button text="FETCH TEST" onPress={onPressHandler} />
       {pokemonDisplay && (
-        <Image
-          source={{ uri: pokemonDisplay }}
-          style={{ width: 200, height: 200, resizeMode: 'contain' }}
+        <PokemonCard
+          name={pokemonDisplay.name}
+          id={pokemonDisplay.id}
+          sprites={pokemonDisplay.sprites}
+          types={pokemonDisplay.types}
+          cardWidthPercent={40}
         />
       )}
     </>

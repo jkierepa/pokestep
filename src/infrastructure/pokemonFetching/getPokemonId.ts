@@ -1,4 +1,4 @@
-import type { PokemonSpecies, PokemonEgg } from '@types';
+import type { PokemonSpecies, FetchedPokemonEgg } from '@types';
 import { LAST_POKEMON_ID, EGG_GROUPS_API } from '@constants';
 
 import getRandArrayElem from '@utils/getRandArrayElem';
@@ -11,7 +11,7 @@ const getPokemonId = async (): Promise<number> => {
   const eggGroups = await fetch(EGG_GROUPS_API);
   const eggs = await eggGroups.json();
 
-  const selectedType: PokemonEgg = getRandArrayElem(eggs.results);
+  const selectedType: FetchedPokemonEgg = getRandArrayElem(eggs.results);
   const pokemonInType = await fetch(selectedType.url);
   const inTypeJson = await pokemonInType.json();
 

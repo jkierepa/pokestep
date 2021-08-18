@@ -6,9 +6,14 @@ const fetchPokemon = async (id: number): Promise<PokemonBasic | undefined> => {
   const resp = await fetch(pokemonUrl);
   const pokemonData = await resp.json();
   const pokemonSprites = pokemonData?.sprites?.versions;
+  const types = pokemonData?.types.map((elem: unknown) => {
+    if (elem?.type?.name) return elem?.type?.name;
+    return null;
+  });
   const pokemon: PokemonBasic = {
     name: pokemonData.name,
     id,
+    types,
     sprites: {
       static: {
         backDefault: pokemonSprites['generation-v']['black-white'].back_default,

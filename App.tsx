@@ -2,6 +2,11 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
+import AppLoading from 'expo-app-loading';
+import {
+  useFonts,
+  PressStart2P_400Regular,
+} from '@expo-google-fonts/press-start-2p';
 
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components/native';
@@ -18,6 +23,13 @@ import defaultTheme from '@theme/theme';
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    PressStart2P_400Regular,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>

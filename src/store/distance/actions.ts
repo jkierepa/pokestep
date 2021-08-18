@@ -1,7 +1,12 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import type { DistanceState } from '../../types';
-import getRandIntinRange from '../../utils/getRandIntInRange';
-import { THRESHOLD_METERS_MIN, THRESHOLD_METERS_MAX } from '../../constants';
+import getRandArrayElem from '@utils/getRandArrayElem';
+import getRandIntinRange from '@utils/getRandIntInRange';
+import type { DistanceState } from '@types';
+import {
+  THRESHOLD_METERS_MIN,
+  THRESHOLD_METERS_MAX,
+  EGG_TYPES,
+} from '@constants';
 
 const updateDistanceAction = (
   state: DistanceState,
@@ -10,7 +15,7 @@ const updateDistanceAction = (
   state.currentDistance += action.payload;
   if (state.threshold <= state.currentDistance) {
     state.currentDistance = 0;
-    state.pokemonFound += 1;
+    state.pokemonFound.push({ eggType: getRandArrayElem(EGG_TYPES) });
     state.threshold = getRandIntinRange(
       THRESHOLD_METERS_MIN,
       THRESHOLD_METERS_MAX,

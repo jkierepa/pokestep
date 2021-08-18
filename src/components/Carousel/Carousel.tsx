@@ -1,49 +1,49 @@
-import React, { useState } from 'react';
-import { View, Dimensions, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View, Dimensions, Animated, Text,
+} from 'react-native';
 
 import Egg from '@components/Egg/Egg';
-import { EggTypes } from '@types';
+import { PokemonEgg } from '@types';
 
-type MockData = {
+type EggData = {
   type: string;
-  id: string;
-  image: EggTypes | null;
+  id: string | number;
+  image: string | null;
 };
 
-const mockData: MockData[] = [
-  // { type: 'spacer', image: null, id: 'leftSpacer2' },
-  { type: 'spacer', image: null, id: 'leftSpacer' },
-  { type: 'egg', image: 'eggBlue', id: 'egg1' },
-  { type: 'egg', image: 'eggGold', id: 'egg2' },
-  { type: 'egg', image: 'eggBlue', id: 'egg3' },
-  { type: 'egg', image: 'eggBlue', id: 'egg4' },
-  { type: 'egg', image: 'eggGold', id: 'egg5' },
-  { type: 'egg', image: 'eggBlue', id: 'egg6' },
-  { type: 'egg', image: 'eggOrange', id: 'egg7' },
-  { type: 'egg', image: 'eggGreen', id: 'egg8' },
-  { type: 'egg', image: 'eggOrange', id: 'egg9' },
-  { type: 'egg', image: 'eggGreen', id: 'egg10' },
-  { type: 'egg', image: 'eggGreen', id: 'egg11' },
-  { type: 'egg', image: 'eggGreen', id: 'egg12' },
-  { type: 'egg', image: 'eggRed', id: 'egg13' },
-  { type: 'egg', image: 'eggGreen', id: 'egg14' },
-  { type: 'egg', image: 'eggRed', id: 'egg15' },
-  { type: 'spacer', image: null, id: 'rightSpacer' },
-  // { type: 'spacer', image: null, id: 'rightSpacer2' },
-];
+const createEggData = (eggs: PokemonEgg[]): EggData[] => {
+  const leftSpacer = { type: 'spacer', image: null, id: 'leftSpacer' };
+  const rightSpacer = { type: 'spacer', image: null, id: 'rightSpacer' };
+  const data: EggData[] = [leftSpacer];
+  eggs.forEach((egg: PokemonEgg, index) => {
+    data.push({ type: 'egg', image: egg.eggType, id: index });
+  });
+  data.push(rightSpacer);
+  return data;
+};
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width * 0.26;
 const SPACER_ITEM_WIDTH = (width - ITEM_WIDTH) / 2;
+const offsetY = 70;
+const centerY = 50;
 
-const Carousel = () => {
-  const [eggData, setEggData] = useState<MockData[]>(mockData);
+type Props = {
+  eggs: PokemonEgg[];
+};
+
+const Carousel = ({ eggs }: Props) => {
+  const [eggData, setEggData] = useState<EggData[]>([]);
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
-  const handlePress = (itemId: string) => {
+  useEffect(() => {
+    setEggData(createEggData(eggs));
+  }, [eggs]);
+
+  const handlePress = (itemId: string | number) => {
     const filteredData = eggData.filter((egg) => egg.id !== itemId);
     setEggData(filteredData);
-    console.log('hatched');
   };
 
   return (
@@ -55,52 +55,62 @@ const Carousel = () => {
         height: '50%',
       }}
     >
-      <Animated.FlatList
-        style={{ height: 200 }}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={eggData}
-        keyExtractor={(item) => item.id}
-        snapToInterval={ITEM_WIDTH}
-        decelerationRate={0}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-          { useNativeDriver: true },
-        )}
-        scrollEventThrottle={16}
-        renderItem={({ item, index }) => {
-          const inputRange = [
-            (index - 2) * ITEM_WIDTH,
-            (index - 1) * ITEM_WIDTH,
-            index * ITEM_WIDTH,
-          ];
+      {eggData.length === 0 ? (
+        <Animated.FlatList
+          style={{ height: 200 }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={eggData}
+          keyExtractor={(item) => item.id.toString()}
+          snapToInterval={ITEM_WIDTH}
+          decelerationRate={0}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: true },
+          )}
+          scrollEventThrottle={16}
+          renderItem={({ item, index }) => {
+            const inputRange = [
+              (index - 2) * ITEM_WIDTH,
+              (index - 1) * ITEM_WIDTH,
+              index * ITEM_WIDTH,
+            ];
 
-          const translateY = scrollX.interpolate({
-            inputRange,
-            outputRange: [100, 50, 100],
-            extrapolate: 'clamp',
-          });
+            const scale = scrollX.interpolate({
+              inputRange,
+              outputRange: [1, 1.4, 1],
+              extrapolate: 'clamp',
+            });
 
-          if (item.type === 'egg' && item.image) {
-            return (
-              <Animated.View
-                style={{
-                  transform: [{ translateY }],
-                  width: ITEM_WIDTH,
-                  alignItems: 'center',
-                }}
-              >
-                <Egg
-                  onPress={() => handlePress(item.id)}
-                  eggType={item.image}
-                />
-              </Animated.View>
-            );
-          }
+            const translateY = scrollX.interpolate({
+              inputRange,
+              outputRange: [offsetY, centerY, offsetY],
+              extrapolate: 'clamp',
+            });
 
-          return <View style={{ width: SPACER_ITEM_WIDTH }} />;
-        }}
-      />
+            if (item.type === 'egg' && item.image) {
+              return (
+                <Animated.View
+                  style={{
+                    transform: [{ translateY }, { scale }],
+                    width: ITEM_WIDTH,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Egg
+                    onPress={() => handlePress(item.id)}
+                    eggType={item.image}
+                  />
+                </Animated.View>
+              );
+            }
+
+            return <View style={{ width: SPACER_ITEM_WIDTH }} />;
+          }}
+        />
+      ) : (
+        <Text>LOADING...</Text>
+      )}
     </View>
   );
 };
