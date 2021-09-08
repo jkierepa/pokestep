@@ -1,13 +1,18 @@
-import { PokemonBasic } from '@types';
+import { PokemonDetailed } from '@types';
 
-const includesPokemon = (targetId: number, array: PokemonBasic[]): boolean => {
-  const filtered = array.filter((pokemon: PokemonBasic) => {
-    if (pokemon.id === targetId) return pokemon;
+const includesPokemon = (
+  targetId: number,
+  array: PokemonDetailed[],
+): boolean => {
+  const filtered = array.filter((pokemon: PokemonDetailed) => {
+    if (pokemon.id === targetId) {
+      return pokemon;
+    }
     return null;
   });
 
-  if (filtered.length !== 0) return false;
-  return true;
+  if (filtered.length !== 0) return true;
+  return false;
 };
 
 export default includesPokemon;

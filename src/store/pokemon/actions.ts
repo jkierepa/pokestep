@@ -1,23 +1,25 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { PokemonBasic, PokemonState } from '@types';
+import { PokemonDetailed, PokemonState } from '@types';
 import includesPokemon from '@utils/includesPokemon';
-
-const updatePokemonAction = (
-  state: PokemonState,
-  action: PayloadAction<PokemonBasic>,
-): void => {
-  const newPokemonId = action.payload.id;
-  const isIncluded = includesPokemon(newPokemonId, state.pokemon);
-  if (!isIncluded) {
-    state.pokemon.push(action.payload);
-  }
-};
 
 const setPokemonStateAction = (
   state: PokemonState,
   action: PayloadAction<PokemonState>,
 ): void => {
-  state.pokemon.push(...action.payload.pokemon);
+  state.pokemon = [...action.payload.pokemon];
 };
 
-export { updatePokemonAction, setPokemonStateAction };
+const addPokemonAction = (
+  state: PokemonState,
+  action: PayloadAction<PokemonDetailed>,
+): void => {
+  const isIncluded = includesPokemon(action.payload.id, state.pokemon);
+  console.log('isIncluded', isIncluded);
+  if (!isIncluded) {
+    const temp = [...state.pokemon];
+    temp.push(action.payload);
+    state.pokemon = [...temp];
+  }
+};
+
+export { addPokemonAction, setPokemonStateAction };

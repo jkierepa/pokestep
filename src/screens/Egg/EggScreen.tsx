@@ -1,19 +1,30 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import SafeArea from '@components/SafeArea/';
 import { useAppSelector } from '@store/store';
 import Carousel from '@components/Carousel/Carousel';
+import Hamburger from '@components/Hamburger/Hamburger';
 
 const EggScreen = () => {
   const pokemonFound = useAppSelector((state) => state.distance.pokemonFound);
   return (
     <SafeArea>
-      {pokemonFound.length === 0 ? (
-        <Text>NO POKEMON EGGS</Text>
-      ) : (
-        <Carousel eggs={pokemonFound} />
-      )}
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            marginTop: 10,
+            alignItems: 'flex-end',
+          }}
+        >
+          <Hamburger exclude="backpack" />
+        </View>
+        {pokemonFound.length === 0 ? (
+          <Text>NO POKEMON EGGS</Text>
+        ) : (
+          <Carousel eggs={pokemonFound} />
+        )}
+      </View>
     </SafeArea>
   );
 };

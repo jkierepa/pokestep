@@ -116,10 +116,12 @@ const PokemonCard = ({
                       },
                     ]}
                   >
-                    <Image
-                      source={{ uri: sprites.animated.frontDefault }}
-                      style={styles.image}
-                    />
+                    {sprites && (
+                      <Image
+                        source={{ uri: sprites.animated.frontDefault }}
+                        style={styles.image}
+                      />
+                    )}
                   </View>
                 </View>
               </View>

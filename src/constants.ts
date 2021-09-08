@@ -1,3 +1,27 @@
+import { EggType, PokemonType } from '@types';
+import bug from '@assets/egg/eggBug.png';
+import dark from '@assets/egg/eggDark.png';
+import common from '@assets/egg/eggCommon.png';
+import dragon from '@assets/egg/eggDragon.png';
+import electric from '@assets/egg/eggElectric.png';
+import fairy from '@assets/egg/eggFairy.png';
+import fighting from '@assets/egg/eggFighting.png';
+import fire from '@assets/egg/eggFire.png';
+import flying from '@assets/egg/eggFlying.png';
+import ghost from '@assets/egg/eggGhost.png';
+import ground from '@assets/egg/eggGround.png';
+import grass from '@assets/egg/eggGrass.png';
+import ice from '@assets/egg/eggIce.png';
+import normal from '@assets/egg/eggNormal.png';
+import plant from '@assets/egg/eggPlant.png';
+import water from '@assets/egg/eggWater.png';
+import white from '@assets/egg/eggWhite.png';
+import steel from '@assets/egg/eggSteel.png';
+import rock from '@assets/egg/eggRock.png';
+import psychic from '@assets/egg/eggPsychic.png';
+import poison from '@assets/egg/eggPoison.png';
+import gold from '@assets/egg/eggGold.png';
+
 export const LOCATION_TIME_INTERVAL = 5000;
 export const LOCATION_BACKGROUND_TRACKING = 'location-background-tracking';
 
@@ -51,10 +75,103 @@ export const POKEMON_TYPE_COLORS = {
   default: '#ffffff',
 };
 
-export const EGG_TYPES = [
-  'eggBlue',
-  'eggRed',
-  'eggGold',
-  'eggGreen',
-  'eggOrange',
+export const EGG_TYPES: EggType[] = [
+  'eggBug',
+  'eggDark',
+  'eggDragon',
+  'eggFairy',
+  'eggFighting',
+  'eggFire',
+  'eggFlying',
+  'eggElectric',
+  'eggGhost',
+  'eggPlant',
+  'eggGrass',
+  'eggGround',
+  'eggNormal',
+  'eggPoison',
+  'eggPsychic',
+  'eggRock',
+  'eggSteel',
+  'eggWater',
+  'eggIce',
+  'eggCommon',
+  'eggWhite',
 ];
+
+// export const EGG_IMAGES: EggImage[] = [
+//   { eggBug: bug },
+//   { eggDark: dark },
+//   { eggCommon: common },
+//   { eggDragon: dragon },
+//   { eggElectric: electric },
+//   { eggFairy: fairy },
+//   { eggFighting: fighting },
+//   { eggFire: fire },
+//   { eggFlying: flying },
+//   { eggGhost: ghost },
+//   { eggGrass: grass },
+//   { eggGold: gold },
+//   { eggGround: ground },
+//   { eggIce: ice },
+//   { eggNormal: normal },
+//   { eggPlant: plant },
+//   { eggWater: water },
+//   { eggWhite: white },
+//   { eggSteel: steel },
+//   { eggRock: rock },
+//   { eggPsychic: psychic },
+//   { eggPoison: poison },
+// ];
+
+export const EGG_IMAGES = {
+  eggBug: bug,
+  eggDark: dark,
+  eggCommon: common,
+  eggDragon: dragon,
+  eggElectric: electric,
+  eggFairy: fairy,
+  eggFighting: fighting,
+  eggFire: fire,
+  eggFlying: flying,
+  eggGhost: ghost,
+  eggGrass: grass,
+  eggGold: gold,
+  eggGround: ground,
+  eggIce: ice,
+  eggNormal: normal,
+  eggPlant: plant,
+  eggWater: water,
+  eggWhite: white,
+  eggSteel: steel,
+  eggRock: rock,
+  eggPsychic: psychic,
+  eggPoison: poison,
+};
+
+type EggToType = { [key in EggType]: PokemonType };
+
+export const EGG_TO_TYPE: EggToType = {
+  eggBug: 'bug',
+  eggDark: 'dark',
+  eggCommon: 'normal',
+  eggDragon: 'dragon',
+  eggElectric: 'electric',
+  eggFairy: 'fairy',
+  eggFighting: 'fighting',
+  eggFire: 'fire',
+  eggFlying: 'flying',
+  eggGhost: 'ghost',
+  eggGrass: 'grass',
+  eggGold: 'gold',
+  eggGround: 'ground',
+  eggIce: 'ice',
+  eggNormal: 'normal',
+  eggPlant: 'plant',
+  eggWater: 'water',
+  eggWhite: 'white',
+  eggSteel: 'steel',
+  eggRock: 'rock',
+  eggPsychic: 'psychic',
+  eggPoison: 'poison',
+};

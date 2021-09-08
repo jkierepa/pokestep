@@ -1,11 +1,11 @@
 import { HamburgerTypes } from '@types';
 import removeFromArray from '@utils/removeFromArray';
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, LayoutAnimation } from 'react-native';
 import HamburgerButton from './Button/HamburgerButton';
 import StyledRow from './styled';
 
-const allNavIcons: HamburgerTypes[] = ['home', 'backpack', 'egg', 'pokeball'];
+const allNavIcons: HamburgerTypes[] = ['home', 'backpack', 'pokeball'];
 
 type Props = {
   exclude: HamburgerTypes;
@@ -14,14 +14,15 @@ type Props = {
 const Hamburger = ({ exclude }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const selected = removeFromArray(allNavIcons, exclude);
+  const toggleSlide = () => {
+    setIsExpanded(!isExpanded);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
 
   return (
     <StyledRow>
       <View>
-        <HamburgerButton
-          type="hamburger"
-          onPress={() => setIsExpanded(!isExpanded)}
-        />
+        <HamburgerButton type="hamburger" onPress={() => toggleSlide()} />
       </View>
 
       {isExpanded && (

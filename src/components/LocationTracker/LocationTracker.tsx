@@ -16,7 +16,6 @@ import { updateDistance } from '../../store/distance/slice';
 
 const LocationTracker = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
-
   const dispatch = useAppDispatch();
   const coords = useAppSelector((state) => state.coordinate);
 

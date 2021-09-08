@@ -1,12 +1,5 @@
 import styled from 'styled-components/native';
 
-const StyledButtonText = styled.Text`
-  color: ${({ theme }) => theme.color.secondary};
-
-  font-size: 24px;
-  font-weight: bold;
-`;
-
 const StyledButton = styled.TouchableOpacity`
   display: flex;
   align-items: center;
@@ -18,9 +11,18 @@ const StyledButton = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.color.main};
 
   border-radius: 10px;
+`;
+
+const StyledButtonOuter = styled(StyledButton)`
+  width: 270px;
+  height: 95px;
+
+  background-color: transparent;
+
+  border-radius: 20px;
   border-width: 5px;
   border-style: solid;
   border-color: ${({ theme }) => theme.color.main};
 `;
 
-export { StyledButton, StyledButtonText };
+export { StyledButton, StyledButtonOuter };

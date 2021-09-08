@@ -1,13 +1,14 @@
 import styled from 'styled-components/native';
 
-const StyledTouchable = styled.TouchableOpacity`
+const StyledTouchable = styled.TouchableOpacity<{ size: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 25%;
-  height: 25%;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
 
   background-color: transparent;
 `;
+
 export default StyledTouchable;

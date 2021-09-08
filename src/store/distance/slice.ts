@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { DistanceState } from '../../types';
-import { updateDistanceAction, setDistanceStateAction } from './actions';
+import type { DistanceState, PokemonEgg } from '@types';
+import {
+  updateDistanceAction,
+  setDistanceStateAction,
+  updateEggsAction,
+} from './actions';
 
 const initialState: DistanceState = {
   currentDistance: 0,
   // dev change from threshold: 1000,
   threshold: 5,
-  pokemonFound: 0,
+  pokemonFound: [],
 };
 
 export const distanceSlice = createSlice({
@@ -19,8 +23,11 @@ export const distanceSlice = createSlice({
     setDistanceState: (state, action: PayloadAction<DistanceState>) => {
       setDistanceStateAction(state, action);
     },
+    updateEggs: (state, action: PayloadAction<PokemonEgg[]>) => {
+      updateEggsAction(state, action);
+    },
   },
 });
 
-export const { updateDistance, setDistanceState } = distanceSlice.actions;
+export const { updateDistance, setDistanceState, updateEggs } = distanceSlice.actions;
 export default distanceSlice.reducer;

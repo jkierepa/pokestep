@@ -2,24 +2,51 @@ import React from 'react';
 
 import { useAppSelector } from '@store/store';
 
-import { HomeScreenNavigationProp } from '@navTypes';
 import SafeArea from '@components/SafeArea/';
-import Egg from '@components/Egg/Egg';
 import LocationTracker from '@components/LocationTracker';
+import Hamburger from '@components/Hamburger/Hamburger';
+import FoundEggsText from '@components/FoundEggsText/FoundEggsText';
+import { View } from 'react-native';
+import DonutProgress from '@components/DonutProgress/DonutProgress';
+import defaultTheme from '@theme/theme';
 
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
-
-const HomeScreen = ({ navigation }: Props) => {
-  const pokemonFound = useAppSelector((state) => state.distance.pokemonFound);
+const HomeScreen = () => {
+  const { pokemonFound, threshold, currentDistance } = useAppSelector(
+    (state) => state.distance,
+  );
 
   return (
     <SafeArea>
-      {Boolean(pokemonFound) && (
-        <Egg onPress={() => navigation.navigate('Egg')} eggType="eggGreenBig" />
-      )}
-      <LocationTracker />
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            marginTop: 10,
+            alignItems: 'flex-end',
+          }}
+        >
+          <Hamburger exclude="home" />
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            height: '50%',
+          }}
+        >
+          <DonutProgress
+            textColor={defaultTheme.color.main}
+            color={defaultTheme.color.main}
+            donutWidth={20}
+            currentValue={currentDistance}
+            maxValue={threshold}
+            padding={250}
+          />
+          <LocationTracker />
+        </View>
+        {pokemonFound.length !== 0 && (
+          <FoundEggsText eggsNumber={pokemonFound.length} />
+        )}
+      </View>
     </SafeArea>
   );
 };

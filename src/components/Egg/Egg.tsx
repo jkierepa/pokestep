@@ -1,19 +1,15 @@
+import { EGG_IMAGES } from '@constants';
+import { EggType } from '@types';
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, Dimensions } from 'react-native';
 
 import StyledTouchable from './styled';
 
-const source: { [key: string]: string } = {
-  eggBlue: '@assets/egg/eggBlue.png',
-  eggRed: '@assets/egg/eggRed.png',
-  eggGold: '@assets/egg/eggGold.png',
-  eggGreen: '@assets/egg/eggGreen.png',
-  eggOrange: '@assets/egg/eggOrange.png',
-};
+const size = Dimensions.get('window').width * 0.25;
 
 type Props = {
   onPress?: (arg?: string) => void;
-  eggType: string;
+  eggType: EggType;
 };
 
 const Egg = ({ onPress, eggType }: Props) => {
@@ -21,13 +17,15 @@ const Egg = ({ onPress, eggType }: Props) => {
     if (onPress) onPress();
   };
   return (
-    <StyledTouchable onPress={handlePress}>
+    <StyledTouchable onPress={handlePress} size={size}>
       <Image
-        source={{ uri: source[eggType] }}
-        style={{
-          flex: 1,
-          resizeMode: 'contain',
-        }}
+        source={EGG_IMAGES[eggType]}
+        style={[
+          {
+            flex: 1,
+            resizeMode: 'contain',
+          },
+        ]}
       />
     </StyledTouchable>
   );

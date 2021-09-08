@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Image, Animated } from 'react-native';
+import { Image, Animated, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { HamburgerTypes } from '@types';
@@ -8,13 +8,17 @@ import backpack from '@assets/icons/backpack.png';
 import pokeball from '@assets/icons/pokeball.png';
 import home from '@assets/icons/home.png';
 import hamburger from '@assets/icons/hamburger.png';
-import { StyledRoundButton, StyledRoundButtonOuter } from './styled';
+import checkmark from '@assets/icons/checkmark.png';
+import cross from '@assets/icons/cross.png';
+import styles from './styles';
 
 const icons = {
   backpack,
   pokeball,
   home,
   hamburger,
+  checkmark,
+  cross,
 };
 
 const navs = {
@@ -22,18 +26,20 @@ const navs = {
   pokeball: 'Pokeball',
   home: 'Home',
   hamburger: '',
+  checkmark: '',
+  cross: '',
 };
 
 type Props = {
   onPress?: () => void;
-  type: HamburgerTypes;
+  type: HamburgerTypes | 'checkmark' | 'cross';
   isMinature?: boolean;
   isAnimated?: boolean;
 };
 
-const AnimatedOuter = Animated.createAnimatedComponent(StyledRoundButtonOuter);
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
-const HamburgerButton = ({
+const RoundButton = ({
   onPress,
   type,
   isMinature = false,
@@ -53,44 +59,29 @@ const HamburgerButton = ({
   });
 
   useEffect(() => {
-    Animated.loop(
-      Animated.timing(scaleAnimation, {
-        toValue: 0,
-        duration: 1,
-        delay: 0,
-        useNativeDriver: true,
-      }),
-    ).start();
+    if (isAnimated) {
+      Animated.loop(
+        Animated.timing(scaleAnimation, {
+          toValue: 1,
+          duration: 2000,
+          delay: 0,
+          useNativeDriver: true,
+        }),
+      ).start();
+    }
   }, []);
 
-  if (isAnimated) {
-    return (
-      <AnimatedOuter
-        isMinature={isMinature}
-        style={{ opacity, transform: [{ scale }] }}
-      >
-        <StyledRoundButton
-          onPress={onPress || (() => navigation.navigate(navs[type]))}
-          isMinature={isMinature}
-        >
-          <Image
-            source={icons[type]}
-            style={{
-              flex: 1,
-              margin: 5,
-              resizeMode: 'contain',
-            }}
-          />
-        </StyledRoundButton>
-      </AnimatedOuter>
-    );
-  }
-
   return (
-    <StyledRoundButtonOuter isMinature={isMinature}>
-      <StyledRoundButton
+    <AnimatedTouchable
+      style={[
+        styles.defaultOuter,
+        isMinature && styles.minatureOuter,
+        { opacity, transform: [{ scale }] },
+      ]}
+    >
+      <TouchableOpacity
         onPress={onPress || (() => navigation.navigate(navs[type]))}
-        isMinature={isMinature}
+        style={[styles.defaultInner, isMinature && styles.minatureInner]}
       >
         <Image
           source={icons[type]}
@@ -100,9 +91,8 @@ const HamburgerButton = ({
             resizeMode: 'contain',
           }}
         />
-      </StyledRoundButton>
-    </StyledRoundButtonOuter>
+      </TouchableOpacity>
+    </AnimatedTouchable>
   );
 };
-
-export default HamburgerButton;
+export default RoundButton;

@@ -5,23 +5,31 @@ declare module 'styled-components' {
     color: {
       main: string;
       secondary: string;
+      tertiary: string;
+      quaternary: string;
     };
 
     backgroundColor: {
       main: string;
       secondary: string;
+      tertiary: string;
+      quaternary: string;
     };
   }
 }
 
 const defaultTheme: DefaultTheme = {
   color: {
-    main: '#895130',
-    secondary: '#b2d2e4',
+    main: '#2A9D8F',
+    secondary: '#FFF',
+    tertiary: '#E76F51',
+    quaternary: '#1E7167',
   },
   backgroundColor: {
-    main: '#92d152',
-    secondary: '#252a3a',
+    main: '#E9C46A',
+    secondary: '#264653',
+    tertiary: '#F4A261',
+    quaternary: '#264653',
   },
 };
 

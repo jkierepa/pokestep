@@ -46,7 +46,6 @@ const DonutProgress = ({
 
   useEffect(() => {
     animation(currentValue);
-
     animatedValue.addListener(({ value }) => {
       const strokeDashoffset = circumference - (circumference * value) / maxValue;
       if (animatedCircleRef?.current) {
@@ -55,8 +54,9 @@ const DonutProgress = ({
         });
       }
       if (animatedTextInputRef?.current) {
+        const percentage = (value / maxValue) * 100;
         animatedTextInputRef.current.setNativeProps({
-          text: `${Math.round(value)}%`,
+          text: `${Math.round(percentage)}%`,
         });
       }
     });
@@ -70,22 +70,22 @@ const DonutProgress = ({
       <Svg
         width={radius * 2}
         height={radius * 2}
-        viewBox={`0 0 ${viewBoxSize * 2} ${viewBoxSize * 2}`}
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
       >
-        <G rotation="-90" origin={`${viewBoxSize}, ${viewBoxSize}`}>
+        <G rotation="-90" origin={`${viewBoxSize / 2}, ${viewBoxSize / 2}`}>
           <Circle
-            cx={viewBoxSize}
-            cy={viewBoxSize}
+            cx={viewBoxSize / 2}
+            cy={viewBoxSize / 2}
             stroke={color}
             strokeWidth={donutWidth}
-            strokeOpacity={0.4}
+            strokeOpacity={0.3}
             r={radius}
             fill="transparent"
           />
           <AnimatedCircle
             ref={animatedCircleRef}
-            cx={viewBoxSize}
-            cy={viewBoxSize}
+            cx={viewBoxSize / 2}
+            cy={viewBoxSize / 2}
             stroke={color}
             strokeWidth={donutWidth}
             r={radius}
@@ -103,7 +103,7 @@ const DonutProgress = ({
         style={[
           StyleSheet.absoluteFillObject,
           {
-            fontSize: radius / 2,
+            fontSize: radius * 0.75,
             color: textColor ?? color,
             fontWeight: 'bold',
             textAlign: 'center',
